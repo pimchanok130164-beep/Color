@@ -5,113 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>เกมจับสี</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: #333;
-        }
-
-        h1 {
-            margin-bottom: 10px;
-            font-size: 2.5rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-            color: #4a4a4a;
-        }
-
-        .score-board {
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            background: rgba(255, 255, 255, 0.8);
-            padding: 8px 20px;
-            border-radius: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-
-        /* กระดานเกม */
-        .game-board {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            max-width: 500px;
-            width: 90%;
-            perspective: 1000px; /* ทำให้มีมิติเวลาพลิกการ์ด */
-        }
-
-        /* การ์ด */
-        .card {
-            aspect-ratio: 1 / 1;
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 0.5s;
-            cursor: pointer;
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-
-        .card:active {
-            transform: scale(0.95);
-            transition: transform 0.1s;
-        }
-
-        /* พลิกการ์ดเมื่อมีคลาส flipped */
-        .card.flipped {
-            transform: rotateY(180deg);
-        }
-
-        /* หน้าและหลังของการ์ด */
-        .card-front, .card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* ด้านหลังการ์ด (ด้านที่ผู้เล่นเห็นตอนเริ่ม) */
-        .card-back {
-            background-color: #2c3e50;
-            color: white;
-            font-size: 2rem;
-        }
-
-        /* ด้านหน้าการ์ด (ด้านที่เป็นสี) */
-        .card-front {
-            transform: rotateY(180deg);
-        }
-
-        /* ปุ่มรีสตาร์ท */
-        .btn-reset {
-            margin-top: 25px;
-            padding: 12px 30px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            background-color: #ff7675;
-            color: white;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: all 0.2s;
-        }
-
-        .btn-reset:hover {
-            background-color: #ff5252;
-            transform: translateY(-2px);
-        }
+        /* CSS โครงสร้างเดิมของบอส (ไม่มีการเปลี่ยนแปลง) */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #333; }
+        h1 { margin-bottom: 10px; font-size: 2.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.1); color: #4a4a4a; }
+        .score-board { font-size: 1.2rem; margin-bottom: 20px; background: rgba(255, 255, 255, 0.8); padding: 8px 20px; border-radius: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .game-board { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; max-width: 500px; width: 90%; perspective: 1000px; }
+        .card { aspect-ratio: 1 / 1; position: relative; transform-style: preserve-3d; transition: transform 0.5s; cursor: pointer; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .card:active { transform: scale(0.95); transition: transform 0.1s; }
+        .card.flipped { transform: rotateY(180deg); }
+        .card-front, .card-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+        .card-back { background-color: #2c3e50; color: white; font-size: 2rem; }
+        .card-front { transform: rotateY(180deg); }
+        .btn-reset { margin-top: 25px; padding: 12px 30px; font-size: 1.1rem; font-weight: bold; background-color: #ff7675; color: white; border: none; border-radius: 25px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: all 0.2s; }
+        .btn-reset:hover { background-color: #ff5252; transform: translateY(-2px); }
     </style>
 </head>
 <body>
@@ -122,20 +29,32 @@
         จำนวนครั้งที่เปิด: <span id="clicks">0</span> ครั้ง
     </div>
 
-    <div class="game-board" id="board">
-        </div>
+    <div class="game-board" id="board"></div>
 
     <button class="btn-reset" onclick="resetGame()">เริ่มเกมใหม่</button>
 
     <script>
-        // รายชื่อสีที่จะใช้จับคู่ (มี 6 สี คู่กันก็จะได้ 12 การ์ดพอดี)
+        // --- 🎵 ส่วนตั้งค่าเสียง (อัปเดตใหม่) 🎵 ---
+        // ใช้ลิงก์เสียงตัวอย่าง บอสสามารถเปลี่ยนเป็นลิงก์ไฟล์ของตัวเองได้
+        const popSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3');
+        const matchSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3');
+        const winSound = new Audio('https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.mp3');
+
+        // ฟังก์ชันเล่นเสียง (ลดระดับเสียงลงนิดหน่อยเพื่อไม่ให้ดังเกินไป)
+        function playSound(audioElement) {
+            audioElement.currentTime = 0; // รีเซ็ตเสียงให้เริ่มจาก 0 เสมอ เพื่อให้กดรัวๆ แล้วเสียงไม่หาย
+            audioElement.volume = 0.5; // ตั้งระดับเสียงที่ 50%
+            audioElement.play().catch(e => console.log("เบราว์เซอร์บล็อกเสียงอัตโนมัติ")); 
+        }
+        // ------------------------------------------
+
         const colors = [
-            '#ff4757', '#ff4757', // แดง
-            '#2ed573', '#2ed573', // เขียว
-            '#1e90ff', '#1e90ff', // น้ำเงิน
-            '#ffa502', '#ffa502', // ส้ม
-            '#9b59b6', '#9b59b6', // ม่วง
-            '#11bbc1', '#11bbc1'  // ฟ้าอมเขียว
+            '#ff4757', '#ff4757', 
+            '#2ed573', '#2ed573', 
+            '#1e90ff', '#1e90ff', 
+            '#ffa502', '#ffa502', 
+            '#9b59b6', '#9b59b6', 
+            '#11bbc1', '#11bbc1'  
         ];
 
         let flippedCards = [];
@@ -146,12 +65,10 @@
         const board = document.getElementById('board');
         const clicksDisplay = document.getElementById('clicks');
 
-        // ฟังก์ชันสลับตำแหน่งอาร์เรย์ (Shuffle) เพื่อให้สีสุ่มทุกครั้งที่เล่น
         function shuffle(array) {
             return array.sort(() => Math.random() - 0.5);
         }
 
-        // ฟังก์ชันสร้างการ์ดลงบนกระดาน
         function createBoard() {
             const shuffledColors = shuffle([...colors]);
             board.innerHTML = '';
@@ -171,10 +88,11 @@
             });
         }
 
-        // ฟังก์ชันการพลิกการ์ด
         function flipCard() {
-            // ป้องกันการกดซ้ำการ์ดเดิม หรือกดตอนที่ระบบกำลังเช็คการ์ดอยู่
             if (isLockBoard || this.classList.contains('flipped') || flippedCards.includes(this)) return;
+
+            // 🎵 เรียกใช้เสียง Pop เมื่อมีการ์ดถูกพลิก 🎵
+            playSound(popSound);
 
             this.classList.add('flipped');
             flippedCards.push(this);
@@ -186,24 +104,25 @@
             }
         }
 
-        // ฟังก์ชันตรวจสอบว่าการ์ดเหมือนกันไหม
         function checkMatch() {
             const [card1, card2] = flippedCards;
             const isMatch = card1.dataset.color === card2.dataset.color;
 
             if (isMatch) {
-                // ถ้าคู่กัน ให้ค้างไว้และล้างสถานะตัวแปร
+                // 🎵 เรียกใช้เสียง Match เมื่อจับคู่ถูกต้อง 🎵
+                setTimeout(() => playSound(matchSound), 200); // ดีเลย์นิดนึงให้ภาพพลิกเสร็จก่อน
+
                 flippedCards = [];
                 matchedCount += 2;
                 
-                // ถ้าชนะเกม (จับคู่ครบ 12 การ์ด)
                 if (matchedCount === colors.length) {
                     setTimeout(() => {
+                        // 🎵 เรียกใช้เสียง Win เมื่อชนะเกม 🎵
+                        playSound(winSound);
                         alert(`ยินดีด้วยคุณชนะแล้ว! 🎉 ใช้การเปิดทั้งหมด ${clicks} ครั้ง`);
                     }, 500);
                 }
             } else {
-                // ถ้าไม่คู่กัน ให้คว่ำการ์ดกลับลงไป (รอ 1 วินาทีเพื่อให้ผู้เล่นจำสี)
                 isLockBoard = true;
                 setTimeout(() => {
                     card1.classList.remove('flipped');
@@ -214,7 +133,6 @@
             }
         }
 
-        // ฟังก์ชันรีเซ็ตเกม
         function resetGame() {
             flippedCards = [];
             matchedCount = 0;
@@ -224,7 +142,6 @@
             createBoard();
         }
 
-        // เริ่มต้นเกมครั้งแรกเมื่อโหลดหน้าเว็บ
         createBoard();
     </script>
 </body>
